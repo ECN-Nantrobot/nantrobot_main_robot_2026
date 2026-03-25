@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" project_name="Project">
+    <include path="my_tree.xml"/>
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Action ID="InitPoses" editable="true"/>
+        <Action ID="MoveTo" editable="true"/>
+        <Action ID="Pick" editable="true"/>
+        <Action ID="SetTeam" editable="true"/>
+        <Action ID="Stop" editable="true"/>
+        <Action ID="WaitForStart" editable="true"/>
+    </TreeNodesModel>
+</root>

@@ -13,6 +13,11 @@ find_package(ament_cmake_python REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(behaviortree_cpp REQUIRED)
+find_package(behaviortree_ros2 REQUIRED)
+find_package(nantrobot_interfaces REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -26,13 +31,13 @@ endif()
 ## Install package files so they're available in the install space
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/launch")
   install(DIRECTORY launch
-    DESTINATION share/${PROJECT_NAME}/launch
+    DESTINATION share/${PROJECT_NAME}
   )
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config")
   install(DIRECTORY config
-    DESTINATION share/${PROJECT_NAME}/config
+    DESTINATION share/${PROJECT_NAME}
   )
 endif()
 
@@ -41,6 +46,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/include")
     DESTINATION include
   )
 endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ressources")
+  install(DIRECTORY ressources
+    DESTINATION share/${PROJECT_NAME}
+  )
+endif()
+
+# Add executable and link libraries
+include_directories("include/")
+add_executable(behavior_tree src/behavior_tree.cpp "include/nantrobot_main_robot_2026/GpioReadAction.hpp")
+ament_target_dependencies(behavior_tree
+  rclcpp
+  rclpy
+  behaviortree_cpp
+  behaviortree_ros2
+  nantrobot_interfaces
+)
+
+install(TARGETS
+  behavior_tree
+  DESTINATION lib/${PROJECT_NAME})
+
+install(PROGRAMS
+  srv/gpio_read_action_server.py
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 ament_python_install_package(${PROJECT_NAME})
 
