@@ -25,7 +25,7 @@ class GpioReadActionServerEmulator(Node):
         pin = int(goal_handle.request.pin)
         pin_state = backend.get_pin_state(pin)
 
-        self.get_logger().info(
+        self.get_logger().debug(
             f'Reading emulated GPIO pin {pin} | mode={pin_state["mode"]} | value={pin_state["state"]}'
         )
 

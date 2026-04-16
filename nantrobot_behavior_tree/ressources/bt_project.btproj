@@ -7,6 +7,10 @@
             <input_port name="pin" type="unsigned int"/>
             <output_port name="value" type="bool"/>
         </Action>
+        <Action ID="GpioWrite" editable="true">
+            <input_port name="pin" type="unsigned int"/>
+            <input_port name="state" type="bool"/>
+        </Action>
         <Action ID="InitMotors" editable="true">
             <input_port name="team" default="{@team}" type="bool"/>
         </Action>

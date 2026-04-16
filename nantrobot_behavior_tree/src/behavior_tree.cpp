@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "nantrobot_behavior_tree/GpioReadAction.hpp"
+#include "nantrobot_behavior_tree/GpioWriteAction.hpp"
 
 // file that contains the custom nodes definitions
 //#include "nantrobot_main_robot_2026/bt_nodes.hpp"
@@ -14,11 +15,13 @@ int main(int argc, char **argv)
   rclcpp::init(argc, argv);
 
   auto node_gpio_read = std::make_shared<rclcpp::Node>("gpio_read");
+  auto node_gpio_write = std::make_shared<rclcpp::Node>("gpio_write");
     // We use the BehaviorTreeFactory to register our custom nodes
   BehaviorTreeFactory factory;
 
   // The recommended way to create a Node is through inheritance.
   factory.registerNodeType<GpioReadAction>("GpioRead", RosNodeParams(node_gpio_read, "gpio_read"));
+  factory.registerNodeType<GpioWriteAction>("GpioWrite", RosNodeParams(node_gpio_write, "gpio_write"));
 
   // Registering a SimpleActionNode using a function pointer.
   // You can use C++11 lambdas or std::bind

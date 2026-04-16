@@ -20,10 +20,9 @@ class GpioWriteActionServer(Node):
             self.execute_callback)
 
     def execute_callback(self, goal_handle: ServerGoalHandle):
-        self.get_logger().info('Executing goal...')
         pin = goal_handle.request.pin
         state = goal_handle.request.state
-        self.get_logger().info(f'Writing GPIO pin: {pin}')
+        self.get_logger().debug(f'Writing GPIO pin: {pin}')
         led = gpiozero.LED(pin)
 
         if state:

@@ -20,10 +20,9 @@ class GpioReadActionServer(Node):
             self.execute_callback)
 
     def execute_callback(self, goal_handle: ServerGoalHandle):
-        self.get_logger().info('Executing goal...')
         pin = goal_handle.request.pin
         button = gpiozero.Button(pin)
-        self.get_logger().info(f'Reading GPIO pin: {pin} \t|value: {button.is_pressed}')
+        self.get_logger().debug(f'Reading GPIO pin: {pin} \t|value: {button.is_pressed}')
 
         result = GpioRead.Result()
 

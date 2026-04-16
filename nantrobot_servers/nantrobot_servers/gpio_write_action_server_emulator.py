@@ -30,7 +30,7 @@ class GpioWriteActionServerEmulator(Node):
         backend.set_pin_state(pin, requested_state)
         pin_state = backend.get_pin_state(pin)
 
-        self.get_logger().info(
+        self.get_logger().debug(
             f'Writing emulated GPIO pin {pin} | mode={pin_state["mode"]} | value={pin_state["state"]}'
         )
 
