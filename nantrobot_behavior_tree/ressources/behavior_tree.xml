@@ -10,7 +10,7 @@
           <GpioRead pin="17"
                     value="{@team}"
                     _description="Set the team"/>
-          <GpioRead pin="18"
+          <GpioRead pin="27"
                     value="{wait}"/>
         </Sequence>
       </Repeat>
@@ -18,7 +18,7 @@
       <Script code="wait:=true"/>
       <Repeat num_cycles="-1"
               _while="wait">
-        <GpioRead pin="19"
+        <GpioRead pin="22"
                   value="{wait}"/>
       </Repeat>
     </Sequence>
@@ -29,23 +29,10 @@
       <SubTree ID="InitSequence"
                _autoremap="false"/>
       <Fallback _description="Stop everything if there is no more time left">
-        <Timeout msec="100">
+        <Timeout msec="10000">
           <Fallback _description="Always try to go back to the ending zone if there is no more time">
-            <Timeout msec="85">
-              <Sequence name="root_sequence">
-                <MoveTo team="{@team}"
-                        forward="true"
-                        x=""
-                        y=""
-                        orientation=""/>
-                <Pick forward="true"/>
-                <MoveTo team="{@team}"
-                        forward="true"
-                        x=""
-                        y=""
-                        orientation=""/>
-                <Put forward="true"/>
-              </Sequence>
+            <Timeout msec="8500">
+              <Sleep msec="10000"/>
             </Timeout>
             <MoveTo team="{@team}"
                     forward="true"
@@ -88,18 +75,6 @@
                   type="double">Y coordinates</input_port>
       <input_port name="orientation"
                   type="double">Final orientation</input_port>
-    </Action>
-    <Action ID="Pick"
-            editable="true">
-      <input_port name="forward"
-                  default="true"
-                  type="bool">Determine wich side to use</input_port>
-    </Action>
-    <Action ID="Put"
-            editable="true">
-      <input_port name="forward"
-                  default="true"
-                  type="bool">Which side to use to put the plancks</input_port>
     </Action>
     <Action ID="Stop"
             editable="true"/>

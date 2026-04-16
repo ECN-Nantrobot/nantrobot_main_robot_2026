@@ -1,5 +1,9 @@
 from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription, TimerAction
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description() -> LaunchDescription:
@@ -10,22 +14,22 @@ def generate_launch_description() -> LaunchDescription:
         output='screen',
     )
 
-    gpio_read_server_node = Node(
-        package='nantrobot_servers',
-        executable='gpio_read_action_server',
-        name='gpio_read_action_server',
-        output='screen',
+    gpio_servers_stack = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare('nantrobot_servers'),
+                'launch',
+                'gpio_servers_auto.launch.py',
+            ])
+        )
     )
 
-    gpio_write_server_node = Node(
-        package='nantrobot_servers',
-        executable='gpio_write_action_server',
-        name='gpio_write_action_server',
-        output='screen',
+    delayed_behavior_tree_start = TimerAction(
+        period=1.5,
+        actions=[behavior_tree_node],
     )
 
     return LaunchDescription([
-        gpio_read_server_node,
-        gpio_write_server_node,
-        behavior_tree_node,
+        gpio_servers_stack,
+        delayed_behavior_tree_start,
     ])

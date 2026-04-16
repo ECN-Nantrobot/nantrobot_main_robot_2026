@@ -27,6 +27,7 @@ find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/GpioRead.action"
+  "action/GpioWrite.action"
 )
 
 ament_package()

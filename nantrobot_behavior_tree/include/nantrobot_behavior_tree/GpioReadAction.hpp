@@ -51,9 +51,6 @@ public:
   // Based on the reply you may decide to return SUCCESS or FAILURE.
   NodeStatus onResultReceived(const WrappedResult& wr) override
   {
-    std::stringstream ss;
-    unsigned int pin;
-    getInput("pin", pin);
     setOutput("value", wr.result->value);
     return NodeStatus::SUCCESS;
   }
@@ -67,6 +64,15 @@ public:
   {
     RCLCPP_ERROR(logger(), "Error: %d", error);
     return NodeStatus::FAILURE;
+  }
+
+  void halt() override
+  {
+    if(status() == NodeStatus::RUNNING)
+    {
+      // GPIO reads are short-lived; avoid cancelGoal() races on halt.
+      resetStatus();
+    }
   }
 
   // we also support a callback for the feedback, as in

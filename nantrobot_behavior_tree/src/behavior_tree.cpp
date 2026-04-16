@@ -22,15 +22,71 @@ int main(int argc, char **argv)
 
   // Registering a SimpleActionNode using a function pointer.
   // You can use C++11 lambdas or std::bind
-  factory.registerSimpleCondition("Put", [&](TreeNode&) { std::cout << "Put" << std::endl; return NodeStatus::SUCCESS; } );
+  const PortsList init_motors_ports = { InputPort<bool>("team") };
+  factory.registerSimpleAction("InitMotors", [&](TreeNode& self) {
+    const auto team = self.getInput<bool>("team");
+    if (!team)
+    {
+      std::cerr << "InitMotors: missing input port 'team'" << std::endl;
+      return NodeStatus::FAILURE;
+    }
+    std::cout << "InitMotors team=" << (*team ? "true" : "false") << std::endl;
+    return NodeStatus::SUCCESS;
+  }, init_motors_ports);
 
-  factory.registerSimpleCondition("InitMotors", [&](TreeNode&) { std::cout << "InitMotors" << std::endl; return NodeStatus::SUCCESS; } );
+  const PortsList move_to_ports = {
+    InputPort<bool>("team"),
+    InputPort<bool>("forward"),
+    InputPort<double>("x"),
+    InputPort<double>("y"),
+    InputPort<double>("orientation")
+  };
+  factory.registerSimpleAction("MoveTo", [&](TreeNode& self) {
+    const auto team = self.getInput<bool>("team");
+    if (!team)
+    {
+      std::cerr << "MoveTo: missing input port 'team'" << std::endl;
+      return NodeStatus::FAILURE;
+    }
+    const auto forward = self.getInput<bool>("forward");
+    if (!forward)
+    {
+      std::cerr << "MoveTo: missing input port 'forward'" << std::endl;
+      return NodeStatus::FAILURE;
+    }
+    std::cout << "MoveTo team=" << (*team ? "true" : "false")
+              << " forward=" << (*forward ? "true" : "false") << std::endl;
+    return NodeStatus::SUCCESS;
+  }, move_to_ports);
 
-  factory.registerSimpleCondition("MoveTo", [&](TreeNode&) { std::cout << "MoveTo" << std::endl; return NodeStatus::SUCCESS; } );
+  const PortsList pick_ports = { InputPort<bool>("forward") };
+  factory.registerSimpleAction("Pick", [&](TreeNode& self) {
+    const auto forward = self.getInput<bool>("forward");
+    if (!forward)
+    {
+      std::cerr << "Pick: missing input port 'forward'" << std::endl;
+      return NodeStatus::FAILURE;
+    }
+    std::cout << "Pick forward=" << (*forward ? "true" : "false") << std::endl;
+    return NodeStatus::SUCCESS;
+  }, pick_ports);
 
-  factory.registerSimpleCondition("Pick", [&](TreeNode&) { std::cout << "Pick" << std::endl; return NodeStatus::SUCCESS; } );
+  const PortsList put_ports = { InputPort<bool>("forward") };
+  factory.registerSimpleAction("Put", [&](TreeNode& self) {
+    const auto forward = self.getInput<bool>("forward");
+    if (!forward)
+    {
+      std::cerr << "Put: missing input port 'forward'" << std::endl;
+      return NodeStatus::FAILURE;
+    }
+    std::cout << "Put forward=" << (*forward ? "true" : "false") << std::endl;
+    return NodeStatus::SUCCESS;
+  }, put_ports);
 
-  factory.registerSimpleCondition("Stop", [&](TreeNode&) { std::cout << "Stop" << std::endl; return NodeStatus::SUCCESS; } );
+  factory.registerSimpleAction("Stop", [&](TreeNode&) {
+    std::cout << "Stop" << std::endl;
+    return NodeStatus::SUCCESS;
+  });
 
   //You can also create SimpleActionNodes using methods of a class
 
@@ -42,7 +98,7 @@ int main(int argc, char **argv)
   auto global_bb = BT::Blackboard::create();
   auto maintree_bb = BT::Blackboard::create(global_bb);
   
-   auto tree = factory.createTreeFromFile("./install/nantrobot_behavior_tree/share/nantrobot_behavior_tree/ressources/my_tree.xml", maintree_bb);
+   auto tree = factory.createTreeFromFile("./install/nantrobot_behavior_tree/share/nantrobot_behavior_tree/ressources/behavior_tree.xml", maintree_bb);
   
    BT::Groot2Publisher publisher(tree);
   // To "execute" a Tree you need to "tick" it.

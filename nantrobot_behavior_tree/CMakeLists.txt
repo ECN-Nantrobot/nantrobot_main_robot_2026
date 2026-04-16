@@ -54,7 +54,7 @@ endif()
 
 # Add executable and link libraries
 include_directories("include/")
-add_executable(behavior_tree src/behavior_tree.cpp "include/nantrobot_behavior_tree/GpioReadAction.hpp" "include/nantrobot_behavior_tree/StateToPort.hpp")
+add_executable(behavior_tree src/behavior_tree.cpp "include/nantrobot_behavior_tree/GpioReadAction.hpp")
 ament_target_dependencies(behavior_tree
   rclcpp
   rclpy

@@ -23,6 +23,12 @@ cd ~/nantrobot_ws
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
+### Build
+
+```bash
+colcon build --symlink-install
+```
+
 ## Run
 
 ```bash
@@ -39,7 +45,7 @@ This repo is made of 3 different packages. Each one handles a specific part of t
 
 First, the `nantrobot_interfaces` package creates customs action messages used to interract with the action servers.
 
-Then, the `nantrobot_servers` package consist of a few python servers that interract with the GPIO or the ESP32 (to be completed with other features)
+Then, the `nantrobot_servers` package consist of a few python servers that interract with the GPIO or the ESP32 (to be completed with other features). It also contains an emulator for the raspberrypi GPIO (the use of the emulated servers is auto detected).
 
 Finally, the `nantrobot_behavior_tree` package is the orchestrator. It handles the loading of a strategy with the BehaviorTree.CPP library, and interract with the ROS action servers through BehaviorTree.ROS. It also contains a launchfile that ensures all required programs are correctly launched.
 
@@ -48,6 +54,5 @@ Finally, the `nantrobot_behavior_tree` package is the orchestrator. It handles t
 
 - Implement servers to communicate with the ESP32
 - Add the simulation
-- Simulate the GPIO action servers
 - Integrate the Lidar
 - Build the behavior Tree

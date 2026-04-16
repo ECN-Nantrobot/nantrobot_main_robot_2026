@@ -7,15 +7,22 @@
             <input_port name="pin" type="unsigned int"/>
             <output_port name="value" type="bool"/>
         </Action>
-        <Action ID="InitPoses" editable="true"/>
+        <Action ID="InitMotors" editable="true">
+            <input_port name="team" default="{@team}" type="bool"/>
+        </Action>
         <Action ID="MoveTo" editable="true">
             <input_port name="team" default="{@team}" type="bool">Get the current team</input_port>
+            <input_port name="forward" default="true" type="bool">Move forward or backward</input_port>
+            <input_port name="x" type="double">X coordinates</input_port>
+            <input_port name="y" type="double">Y coordinates</input_port>
+            <input_port name="orientation" type="double">Final orientation</input_port>
         </Action>
-        <Action ID="Pick" editable="true"/>
-        <Action ID="SetTeam" editable="true">
-            <output_port name="team" default="{@team}" type="bool">Set the current team (0: blue; 1: yellow)</output_port>
+        <Action ID="Pick" editable="true">
+            <input_port name="forward" default="true" type="bool">Determine wich side to use</input_port>
+        </Action>
+        <Action ID="Put" editable="true">
+            <input_port name="forward" default="true" type="bool">Which side to use to put the plancks</input_port>
         </Action>
         <Action ID="Stop" editable="true"/>
-        <Action ID="WaitForStart" editable="true"/>
     </TreeNodesModel>
 </root>
