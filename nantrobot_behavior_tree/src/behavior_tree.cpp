@@ -42,7 +42,7 @@ int main(int argc, char **argv)
   // IMPORTANT: when the object "tree" goes out of scope, all the 
   // TreeNodes are destroyed
   
-   auto tree = factory.createTreeFromFile("./install/nantrobot_main_robot_2026/share/nantrobot_main_robot_2026/ressources/my_tree.xml");
+   auto tree = factory.createTreeFromFile("./install/nantrobot_behavior_tree/share/nantrobot_behavior_tree/ressources/my_tree.xml");
   
    BT::Groot2Publisher publisher(tree);
   // To "execute" a Tree you need to "tick" it.

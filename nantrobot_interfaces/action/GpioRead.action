@@ -1,0 +1,5 @@
+uint8 pin
+---
+bool value
+---
+bool running

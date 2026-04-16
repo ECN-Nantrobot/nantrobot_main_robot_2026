@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+
 import rclpy
 from rclpy.action import ActionServer
-form rclpy.action.server import ServerGoalHandle
+from rclpy.action.server import ServerGoalHandle
 from rclpy.node import Node
 import gpiozero
 

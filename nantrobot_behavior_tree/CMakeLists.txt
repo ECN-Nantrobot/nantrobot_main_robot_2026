@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(nantrobot_main_robot_2026)
+project(nantrobot_behavior_tree)
 
 cmake_policy(SET CMP0057 NEW)
 
@@ -9,7 +9,6 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_python REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -67,12 +66,5 @@ ament_target_dependencies(behavior_tree
 install(TARGETS
   behavior_tree
   DESTINATION lib/${PROJECT_NAME})
-
-install(PROGRAMS
-  srv/gpio_read_action_server.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-ament_python_install_package(${PROJECT_NAME})
 
 ament_package()
