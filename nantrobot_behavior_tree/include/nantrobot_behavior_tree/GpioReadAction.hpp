@@ -34,7 +34,7 @@ public:
   // using RosActionNode::providedBasicPorts()
   static PortsList providedPorts()
   {
-    return providedBasicPorts({InputPort<unsigned>("pin")});
+    return providedBasicPorts({InputPort<unsigned>("pin"), OutputPort<bool>("value")});
   }
 
   // This is called when the TreeNode is ticked and it should
@@ -54,10 +54,8 @@ public:
     std::stringstream ss;
     unsigned int pin;
     getInput("pin", pin);
-    ss << "Result received: ";
-    ss << "pin: " << pin << ", value: " << wr.result->value;
-    RCLCPP_INFO(logger(), ss.str().c_str());
-    return wr.result->value ? NodeStatus::SUCCESS : NodeStatus::FAILURE;
+    setOutput("value", wr.result->value);
+    return NodeStatus::SUCCESS;
   }
 
   // Callback invoked when there was an error at the level

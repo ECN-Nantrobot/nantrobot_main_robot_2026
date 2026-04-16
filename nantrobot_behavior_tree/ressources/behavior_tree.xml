@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4"
+      main_tree_to_execute="MainTree">
+  <BehaviorTree ID="InitSequence">
+    <Sequence>
+      <Script code="wait:=true"/>
+      <Repeat num_cycles="-1"
+              _while="wait">
+        <Sequence>
+          <GpioRead pin="17"
+                    value="{@team}"
+                    _description="Set the team"/>
+          <GpioRead pin="18"
+                    value="{wait}"/>
+        </Sequence>
+      </Repeat>
+      <InitMotors team="{@team}"/>
+      <Script code="wait:=true"/>
+      <Repeat num_cycles="-1"
+              _while="wait">
+        <GpioRead pin="19"
+                  value="{wait}"/>
+      </Repeat>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="MainTree">
+    <Sequence>
+      <SubTree ID="InitSequence"
+               _autoremap="false"/>
+      <Fallback _description="Stop everything if there is no more time left">
+        <Timeout msec="100">
+          <Fallback _description="Always try to go back to the ending zone if there is no more time">
+            <Timeout msec="85">
+              <Sequence name="root_sequence">
+                <MoveTo team="{@team}"
+                        forward="true"
+                        x=""
+                        y=""
+                        orientation=""/>
+                <Pick forward="true"/>
+                <MoveTo team="{@team}"
+                        forward="true"
+                        x=""
+                        y=""
+                        orientation=""/>
+                <Put forward="true"/>
+              </Sequence>
+            </Timeout>
+            <MoveTo team="{@team}"
+                    forward="true"
+                    x="1.8"
+                    y="-0.3"
+                    orientation="-90"/>
+          </Fallback>
+        </Timeout>
+        <Stop/>
+      </Fallback>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="GpioRead"
+            editable="true">
+      <input_port name="pin"
+                  type="unsigned int"/>
+      <output_port name="value"
+                   type="bool"/>
+    </Action>
+    <Action ID="InitMotors"
+            editable="true">
+      <input_port name="team"
+                  default="{@team}"
+                  type="bool"/>
+    </Action>
+    <Action ID="MoveTo"
+            editable="true">
+      <input_port name="team"
+                  default="{@team}"
+                  type="bool">Get the current team</input_port>
+      <input_port name="forward"
+                  default="true"
+                  type="bool">Move forward or backward</input_port>
+      <input_port name="x"
+                  type="double">X coordinates</input_port>
+      <input_port name="y"
+                  type="double">Y coordinates</input_port>
+      <input_port name="orientation"
+                  type="double">Final orientation</input_port>
+    </Action>
+    <Action ID="Pick"
+            editable="true">
+      <input_port name="forward"
+                  default="true"
+                  type="bool">Determine wich side to use</input_port>
+    </Action>
+    <Action ID="Put"
+            editable="true">
+      <input_port name="forward"
+                  default="true"
+                  type="bool">Which side to use to put the plancks</input_port>
+    </Action>
+    <Action ID="Stop"
+            editable="true"/>
+  </TreeNodesModel>
+
+</root>

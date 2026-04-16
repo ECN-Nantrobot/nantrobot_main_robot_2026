@@ -2,7 +2,7 @@
 #include <behaviortree_cpp/loggers/groot2_publisher.h>
 #include <iostream>
 
-#include "nantrobot_main_robot_2026/GpioReadAction.hpp"
+#include "nantrobot_behavior_tree/GpioReadAction.hpp"
 
 // file that contains the custom nodes definitions
 //#include "nantrobot_main_robot_2026/bt_nodes.hpp"
@@ -22,11 +22,9 @@ int main(int argc, char **argv)
 
   // Registering a SimpleActionNode using a function pointer.
   // You can use C++11 lambdas or std::bind
-  factory.registerSimpleCondition("SetTeam", [&](TreeNode&) { return NodeStatus::SUCCESS; } );
+  factory.registerSimpleCondition("Put", [&](TreeNode&) { std::cout << "Put" << std::endl; return NodeStatus::SUCCESS; } );
 
-  factory.registerSimpleCondition("WaitForStart", [&](TreeNode&) { std::cout << "WaitForStart" << std::endl; return NodeStatus::FAILURE; } );
-
-  factory.registerSimpleCondition("InitPoses", [&](TreeNode&) { std::cout << "InitPoses" << std::endl; return NodeStatus::SUCCESS; } );
+  factory.registerSimpleCondition("InitMotors", [&](TreeNode&) { std::cout << "InitMotors" << std::endl; return NodeStatus::SUCCESS; } );
 
   factory.registerSimpleCondition("MoveTo", [&](TreeNode&) { std::cout << "MoveTo" << std::endl; return NodeStatus::SUCCESS; } );
 
@@ -41,8 +39,10 @@ int main(int argc, char **argv)
     
   // IMPORTANT: when the object "tree" goes out of scope, all the 
   // TreeNodes are destroyed
+  auto global_bb = BT::Blackboard::create();
+  auto maintree_bb = BT::Blackboard::create(global_bb);
   
-   auto tree = factory.createTreeFromFile("./install/nantrobot_behavior_tree/share/nantrobot_behavior_tree/ressources/my_tree.xml");
+   auto tree = factory.createTreeFromFile("./install/nantrobot_behavior_tree/share/nantrobot_behavior_tree/ressources/my_tree.xml", maintree_bb);
   
    BT::Groot2Publisher publisher(tree);
   // To "execute" a Tree you need to "tick" it.

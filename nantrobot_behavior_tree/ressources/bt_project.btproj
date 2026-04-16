@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" project_name="Project">
-    <include path="my_tree.xml"/>
+    <include path="behavior_tree.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
+        <Action ID="GpioRead" editable="true">
+            <input_port name="pin" type="unsigned int"/>
+            <output_port name="value" type="bool"/>
+        </Action>
         <Action ID="InitPoses" editable="true"/>
-        <Action ID="MoveTo" editable="true"/>
+        <Action ID="MoveTo" editable="true">
+            <input_port name="team" default="{@team}" type="bool">Get the current team</input_port>
+        </Action>
         <Action ID="Pick" editable="true"/>
-        <Action ID="SetTeam" editable="true"/>
+        <Action ID="SetTeam" editable="true">
+            <output_port name="team" default="{@team}" type="bool">Set the current team (0: blue; 1: yellow)</output_port>
+        </Action>
         <Action ID="Stop" editable="true"/>
         <Action ID="WaitForStart" editable="true"/>
     </TreeNodesModel>
