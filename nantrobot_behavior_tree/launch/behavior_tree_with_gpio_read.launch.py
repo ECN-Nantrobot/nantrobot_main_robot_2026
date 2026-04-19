@@ -20,7 +20,7 @@ def generate_launch_description() -> LaunchDescription:
     )
     debug_terminal_arg = DeclareLaunchArgument(
         'esp32_debug_terminal',
-        default_value='true',
+        default_value='false',
         description='Run control_gateway in a dedicated terminal.',
     )
     debug_terminal_prefix_arg = DeclareLaunchArgument(
