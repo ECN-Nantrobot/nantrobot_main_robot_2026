@@ -16,7 +16,8 @@
                     value="{wait}"/>
         </Sequence>
       </Repeat>
-      <InitMotors team="{@team}"/>
+      <SetTeam team="{@team}"/>
+      <InitOdom/>
       <Script code="wait:=true"/>
       <Repeat num_cycles="-1"
               _while="wait">
@@ -30,31 +31,45 @@
     <Sequence>
       <SubTree ID="InitSequence"
                _autoremap="false"/>
-      <Fallback _description="Stop everything if there is no more time left">
-        <Timeout msec="10000">
-          <Fallback _description="Always try to go back to the ending zone if there is no more time">
-            <Timeout msec="8500">
-              <Sequence>
-                <MoveTo team="{@team}"
-                        forward="true"
-                        x="12"
-                        y="27"/>
-                <Sleep msec="10000"/>
-              </Sequence>
-            </Timeout>
-            <MoveTo team="{@team}"
-                    forward="true"
-                    x="1.8"
-                    y="-0.3"/>
-          </Fallback>
-        </Timeout>
-        <Stop/>
-      </Fallback>
+      <Timeout msec="10000">
+        <Fallback _description="Stop everything if there is no more time left">
+          <Timeout msec="8500">
+            <Goto x="12"
+                  y="27"
+                  forward="true"
+                  current_x="{@current_x}"
+                  current_y="{@current_y}"
+                  current_theta="{@current_theta}"/>
+          </Timeout>
+          <Goto x="0.3"
+                y="-2.7"
+                forward="true"
+                current_x="{@current_x}"
+                current_y="{@current_y}"
+                current_theta="{@current_theta}"/>
+        </Fallback>
+      </Timeout>
     </Sequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
+    <Action ID="Goto"
+            editable="true">
+      <input_port name="x"
+                  type="double">X coordinates</input_port>
+      <input_port name="y"
+                  type="double">Y coordinates</input_port>
+      <input_port name="forward"
+                  default="true"
+                  type="bool">Forward travel direction (true=forward, false=reverse)</input_port>
+      <output_port name="current_x"
+                   type="double"/>
+      <output_port name="current_y"
+                   type="double"/>
+      <output_port name="current_theta"
+                   type="double"/>
+    </Action>
     <Action ID="GpioRead"
             editable="true">
       <input_port name="pin"
@@ -69,27 +84,14 @@
       <input_port name="state"
                   type="bool"/>
     </Action>
-    <Action ID="InitMotors"
+    <Action ID="InitOdom"
+            editable="true"/>
+    <Action ID="SetTeam"
             editable="true">
       <input_port name="team"
                   default="{@team}"
                   type="bool"/>
     </Action>
-    <Action ID="MoveTo"
-            editable="true">
-      <input_port name="team"
-                  default="{@team}"
-                  type="bool">Get the current team</input_port>
-      <input_port name="forward"
-                  default="true"
-                  type="bool">Move forward or backward</input_port>
-      <input_port name="x"
-                  type="double">X coordinates</input_port>
-      <input_port name="y"
-                  type="double">Y coordinates</input_port>
-    </Action>
-    <Action ID="Stop"
-            editable="true"/>
   </TreeNodesModel>
 
 </root>

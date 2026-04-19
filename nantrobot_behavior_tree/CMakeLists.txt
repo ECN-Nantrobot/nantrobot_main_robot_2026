@@ -58,7 +58,13 @@ add_executable(behavior_tree
   src/behavior_tree.cpp
   "include/nantrobot_behavior_tree/GpioReadAction.hpp"
   "include/nantrobot_behavior_tree/GpioWriteAction.hpp"
-  "include/nantrobot_behavior_tree/MoveToAction.hpp")
+  "include/nantrobot_behavior_tree/GotoAction.hpp"
+  "include/nantrobot_behavior_tree/OrientationAction.hpp"
+  "include/nantrobot_behavior_tree/PickAction.hpp"
+  "include/nantrobot_behavior_tree/PutAction.hpp"
+  "include/nantrobot_behavior_tree/InitOdomAction.hpp"
+  "include/nantrobot_behavior_tree/SetTeamAction.hpp"
+  "include/nantrobot_behavior_tree/StopAction.hpp")
 ament_target_dependencies(behavior_tree
   rclcpp
   rclpy

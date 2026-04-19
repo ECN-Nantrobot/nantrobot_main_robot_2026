@@ -29,6 +29,13 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/GpioRead.action"
   "action/GpioWrite.action"
   "action/RobotMove.action"
+  "action/Goto.action"
+  "action/Orientation.action"
+  "action/Pick.action"
+  "action/Put.action"
+  "action/InitOdom.action"
+  "action/SetTeam.action"
+  "action/Stop.action"
 )
 
 ament_package()

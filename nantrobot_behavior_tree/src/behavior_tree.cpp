@@ -4,7 +4,13 @@
 
 #include "nantrobot_behavior_tree/GpioReadAction.hpp"
 #include "nantrobot_behavior_tree/GpioWriteAction.hpp"
-#include "nantrobot_behavior_tree/MoveToAction.hpp"
+#include "nantrobot_behavior_tree/GotoAction.hpp"
+#include "nantrobot_behavior_tree/OrientationAction.hpp"
+#include "nantrobot_behavior_tree/PickAction.hpp"
+#include "nantrobot_behavior_tree/PutAction.hpp"
+#include "nantrobot_behavior_tree/InitOdomAction.hpp"
+#include "nantrobot_behavior_tree/SetTeamAction.hpp"
+#include "nantrobot_behavior_tree/StopAction.hpp"
 
 // file that contains the custom nodes definitions
 //#include "nantrobot_main_robot_2026/bt_nodes.hpp"
@@ -34,54 +40,47 @@ int main(int argc, char **argv)
   gpio_write_params.default_port_value = "gpio_write";
   factory.registerNodeType<GpioWriteAction>("GpioWrite", gpio_write_params);
 
-  auto node_move_to = std::make_shared<rclcpp::Node>("move_to_action_client", action_client_node_options);
-  RosNodeParams move_to_params;
-  move_to_params.nh = node_move_to;
-  move_to_params.default_port_value = "navigate_to_goal";
-  factory.registerNodeType<MoveToAction>("MoveTo", move_to_params);
+  auto node_goto = std::make_shared<rclcpp::Node>("goto_action_client", action_client_node_options);
+  RosNodeParams goto_params;
+  goto_params.nh = node_goto;
+  goto_params.default_port_value = "goto";
+  factory.registerNodeType<GotoAction>("Goto", goto_params);
 
-  // Registering a SimpleActionNode using a function pointer.
-  // You can use C++11 lambdas or std::bind
-  const PortsList init_motors_ports = { InputPort<bool>("team") };
-  factory.registerSimpleAction("InitMotors", [&](TreeNode& self) {
-    const auto team = self.getInput<bool>("team");
-    if (!team)
-    {
-      std::cerr << "InitMotors: missing input port 'team'" << std::endl;
-      return NodeStatus::FAILURE;
-    }
-    std::cout << "InitMotors team=" << (*team ? "true" : "false") << std::endl;
-    return NodeStatus::SUCCESS;
-  }, init_motors_ports);
+  auto node_orientation = std::make_shared<rclcpp::Node>("orientation_action_client", action_client_node_options);
+  RosNodeParams orientation_params;
+  orientation_params.nh = node_orientation;
+  orientation_params.default_port_value = "orientation";
+  factory.registerNodeType<OrientationAction>("Orientation", orientation_params);
 
-  const PortsList pick_ports = { InputPort<bool>("forward") };
-  factory.registerSimpleAction("Pick", [&](TreeNode& self) {
-    const auto forward = self.getInput<bool>("forward");
-    if (!forward)
-    {
-      std::cerr << "Pick: missing input port 'forward'" << std::endl;
-      return NodeStatus::FAILURE;
-    }
-    std::cout << "Pick forward=" << (*forward ? "true" : "false") << std::endl;
-    return NodeStatus::SUCCESS;
-  }, pick_ports);
+  auto node_pick = std::make_shared<rclcpp::Node>("pick_action_client", action_client_node_options);
+  RosNodeParams pick_params;
+  pick_params.nh = node_pick;
+  pick_params.default_port_value = "pick";
+  factory.registerNodeType<PickAction>("Pick", pick_params);
 
-  const PortsList put_ports = { InputPort<bool>("forward") };
-  factory.registerSimpleAction("Put", [&](TreeNode& self) {
-    const auto forward = self.getInput<bool>("forward");
-    if (!forward)
-    {
-      std::cerr << "Put: missing input port 'forward'" << std::endl;
-      return NodeStatus::FAILURE;
-    }
-    std::cout << "Put forward=" << (*forward ? "true" : "false") << std::endl;
-    return NodeStatus::SUCCESS;
-  }, put_ports);
+  auto node_put = std::make_shared<rclcpp::Node>("put_action_client", action_client_node_options);
+  RosNodeParams put_params;
+  put_params.nh = node_put;
+  put_params.default_port_value = "put";
+  factory.registerNodeType<PutAction>("Put", put_params);
 
-  factory.registerSimpleAction("Stop", [&](TreeNode&) {
-    std::cout << "Stop" << std::endl;
-    return NodeStatus::SUCCESS;
-  });
+  auto node_init_odom = std::make_shared<rclcpp::Node>("init_odom_action_client", action_client_node_options);
+  RosNodeParams init_odom_params;
+  init_odom_params.nh = node_init_odom;
+  init_odom_params.default_port_value = "init_odom";
+  factory.registerNodeType<InitOdomAction>("InitOdom", init_odom_params);
+
+  auto node_set_team = std::make_shared<rclcpp::Node>("set_team_action_client", action_client_node_options);
+  RosNodeParams set_team_params;
+  set_team_params.nh = node_set_team;
+  set_team_params.default_port_value = "set_team";
+  factory.registerNodeType<SetTeamAction>("SetTeam", set_team_params);
+
+  auto node_stop = std::make_shared<rclcpp::Node>("stop_action_client", action_client_node_options);
+  RosNodeParams stop_params;
+  stop_params.nh = node_stop;
+  stop_params.default_port_value = "stop";
+  factory.registerNodeType<StopAction>("Stop", stop_params);
 
   //You can also create SimpleActionNodes using methods of a class
 
