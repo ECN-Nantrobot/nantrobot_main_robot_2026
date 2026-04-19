@@ -19,7 +19,6 @@
             <input_port name="forward" default="true" type="bool">Move forward or backward</input_port>
             <input_port name="x" type="double">X coordinates</input_port>
             <input_port name="y" type="double">Y coordinates</input_port>
-            <input_port name="orientation" type="double">Final orientation</input_port>
         </Action>
         <Action ID="Pick" editable="true">
             <input_port name="forward" default="true" type="bool">Determine wich side to use</input_port>

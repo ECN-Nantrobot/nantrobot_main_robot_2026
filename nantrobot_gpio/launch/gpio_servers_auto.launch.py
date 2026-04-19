@@ -17,13 +17,13 @@ def _launch_gpio_stack(_context: LaunchContext, *_args: Any, **_kwargs: Any) -> 
         return [
             LogInfo(msg='gpiozero detected: launching standard GPIO action servers.'),
             Node(
-                package='nantrobot_servers',
+                package='nantrobot_gpio',
                 executable='gpio_read_action_server',
                 name='gpio_read_action_server',
                 output='screen',
             ),
             Node(
-                package='nantrobot_servers',
+                package='nantrobot_gpio',
                 executable='gpio_write_action_server',
                 name='gpio_write_action_server',
                 output='screen',
@@ -33,19 +33,19 @@ def _launch_gpio_stack(_context: LaunchContext, *_args: Any, **_kwargs: Any) -> 
     return [
         LogInfo(msg='gpiozero not available: launching GPIO emulator stack.'),
         Node(
-            package='nantrobot_servers',
+            package='nantrobot_gpio',
             executable='gpio_read_action_server_emulator',
             name='gpio_read_action_server_emulator',
             output='screen',
         ),
         Node(
-            package='nantrobot_servers',
+            package='nantrobot_gpio',
             executable='gpio_write_action_server_emulator',
             name='gpio_write_action_server_emulator',
             output='screen',
         ),
         Node(
-            package='nantrobot_servers',
+            package='nantrobot_gpio',
             executable='gpio_emulator_ui',
             name='gpio_emulator_ui',
             output='screen',

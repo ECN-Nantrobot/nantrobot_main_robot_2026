@@ -34,13 +34,18 @@
         <Timeout msec="10000">
           <Fallback _description="Always try to go back to the ending zone if there is no more time">
             <Timeout msec="8500">
-              <Sleep msec="10000"/>
+              <Sequence>
+                <MoveTo team="{@team}"
+                        forward="true"
+                        x="12"
+                        y="27"/>
+                <Sleep msec="10000"/>
+              </Sequence>
             </Timeout>
             <MoveTo team="{@team}"
                     forward="true"
                     x="1.8"
-                    y="-0.3"
-                    orientation="-90"/>
+                    y="-0.3"/>
           </Fallback>
         </Timeout>
         <Stop/>
@@ -82,8 +87,6 @@
                   type="double">X coordinates</input_port>
       <input_port name="y"
                   type="double">Y coordinates</input_port>
-      <input_port name="orientation"
-                  type="double">Final orientation</input_port>
     </Action>
     <Action ID="Stop"
             editable="true"/>

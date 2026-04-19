@@ -20,15 +20,6 @@ public:
     : RosActionNode<GpioRead>(name, conf, params)
   {}
 
-  GpioReadAction(const std::string& name,
-                  const NodeConfig& conf)
-    : RosActionNode<GpioRead>(name, conf, RosNodeParams(std::make_shared<rclcpp::Node>("gpio_read"), "gpio_read"))
-  {}
-
-  GpioReadAction(const std::string& name)
-    : RosActionNode<GpioRead>(name, NodeConfig(), RosNodeParams(std::make_shared<rclcpp::Node>("gpio_read"), "gpio_read"))
-  {}
-
   // The specific ports of this Derived class
   // should be merged with the ports of the base class,
   // using RosActionNode::providedBasicPorts()

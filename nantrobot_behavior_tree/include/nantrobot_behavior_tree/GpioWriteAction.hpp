@@ -18,15 +18,6 @@ public:
     : RosActionNode<GpioWrite>(name, conf, params)
   {}
 
-  GpioWriteAction(const std::string& name,
-                  const NodeConfig& conf)
-    : RosActionNode<GpioWrite>(name, conf, RosNodeParams(std::make_shared<rclcpp::Node>("gpio_write"), "gpio_write"))
-  {}
-
-  GpioWriteAction(const std::string& name)
-    : RosActionNode<GpioWrite>(name, NodeConfig(), RosNodeParams(std::make_shared<rclcpp::Node>("gpio_write"), "gpio_write"))
-  {}
-
   static PortsList providedPorts()
   {
     return providedBasicPorts(

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>nantrobot_servers</name>
+  <name>nantrobot_gpio</name>
   <version>0.0.0</version>
   <description>Actions servers for the Nantrobot main robot</description>
   <maintainer email="jbenoit.grimaldi+github@gmail.com">Jean-Benoît Grimaldi</maintainer>

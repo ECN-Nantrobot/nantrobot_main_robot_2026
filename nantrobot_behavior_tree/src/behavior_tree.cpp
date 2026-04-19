@@ -4,6 +4,7 @@
 
 #include "nantrobot_behavior_tree/GpioReadAction.hpp"
 #include "nantrobot_behavior_tree/GpioWriteAction.hpp"
+#include "nantrobot_behavior_tree/MoveToAction.hpp"
 
 // file that contains the custom nodes definitions
 //#include "nantrobot_main_robot_2026/bt_nodes.hpp"
@@ -14,14 +15,30 @@ int main(int argc, char **argv)
 {
   rclcpp::init(argc, argv);
 
-  auto node_gpio_read = std::make_shared<rclcpp::Node>("gpio_read");
-  auto node_gpio_write = std::make_shared<rclcpp::Node>("gpio_write");
-    // We use the BehaviorTreeFactory to register our custom nodes
+  // We use the BehaviorTreeFactory to register our custom nodes
   BehaviorTreeFactory factory;
 
+  // Ignore global launch arguments (like __node remapping) so these
+  // helper nodes keep stable names for action client connectivity.
+  auto action_client_node_options = rclcpp::NodeOptions().use_global_arguments(false);
   // The recommended way to create a Node is through inheritance.
-  factory.registerNodeType<GpioReadAction>("GpioRead", RosNodeParams(node_gpio_read, "gpio_read"));
-  factory.registerNodeType<GpioWriteAction>("GpioWrite", RosNodeParams(node_gpio_write, "gpio_write"));
+  auto node_gpio_read = std::make_shared<rclcpp::Node>("gpio_read_action_client", action_client_node_options);
+  RosNodeParams gpio_read_params;
+  gpio_read_params.nh = node_gpio_read;
+  gpio_read_params.default_port_value = "gpio_read";
+  factory.registerNodeType<GpioReadAction>("GpioRead", gpio_read_params);
+
+  auto node_gpio_write = std::make_shared<rclcpp::Node>("gpio_write_action_client", action_client_node_options);
+  RosNodeParams gpio_write_params;
+  gpio_write_params.nh = node_gpio_write;
+  gpio_write_params.default_port_value = "gpio_write";
+  factory.registerNodeType<GpioWriteAction>("GpioWrite", gpio_write_params);
+
+  auto node_move_to = std::make_shared<rclcpp::Node>("move_to_action_client", action_client_node_options);
+  RosNodeParams move_to_params;
+  move_to_params.nh = node_move_to;
+  move_to_params.default_port_value = "navigate_to_goal";
+  factory.registerNodeType<MoveToAction>("MoveTo", move_to_params);
 
   // Registering a SimpleActionNode using a function pointer.
   // You can use C++11 lambdas or std::bind
@@ -36,31 +53,6 @@ int main(int argc, char **argv)
     std::cout << "InitMotors team=" << (*team ? "true" : "false") << std::endl;
     return NodeStatus::SUCCESS;
   }, init_motors_ports);
-
-  const PortsList move_to_ports = {
-    InputPort<bool>("team"),
-    InputPort<bool>("forward"),
-    InputPort<double>("x"),
-    InputPort<double>("y"),
-    InputPort<double>("orientation")
-  };
-  factory.registerSimpleAction("MoveTo", [&](TreeNode& self) {
-    const auto team = self.getInput<bool>("team");
-    if (!team)
-    {
-      std::cerr << "MoveTo: missing input port 'team'" << std::endl;
-      return NodeStatus::FAILURE;
-    }
-    const auto forward = self.getInput<bool>("forward");
-    if (!forward)
-    {
-      std::cerr << "MoveTo: missing input port 'forward'" << std::endl;
-      return NodeStatus::FAILURE;
-    }
-    std::cout << "MoveTo team=" << (*team ? "true" : "false")
-              << " forward=" << (*forward ? "true" : "false") << std::endl;
-    return NodeStatus::SUCCESS;
-  }, move_to_ports);
 
   const PortsList pick_ports = { InputPort<bool>("forward") };
   factory.registerSimpleAction("Pick", [&](TreeNode& self) {

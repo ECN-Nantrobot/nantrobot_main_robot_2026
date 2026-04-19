@@ -121,7 +121,7 @@ def _ensure_backend_running():
     if _ping_backend():
         return
 
-    cmd = [sys.executable, '-m', 'nantrobot_servers.gpio_emulator_backend_server']
+    cmd = [sys.executable, '-m', 'nantrobot_gpio.gpio_emulator_backend_server']
     env = os.environ.copy()
     env['NANTROBOT_GPIO_BACKEND_HOST'] = _backend_host()
     env['NANTROBOT_GPIO_BACKEND_PORT'] = str(_backend_port())
