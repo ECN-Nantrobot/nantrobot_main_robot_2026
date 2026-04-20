@@ -15,6 +15,7 @@
 
   <depend>nantrobot_interfaces</depend>
   <depend>nantrobot_gpio</depend>
+  <depend>motor_control_pkg</depend>
   
   <export>
     <build_type>ament_cmake</build_type>

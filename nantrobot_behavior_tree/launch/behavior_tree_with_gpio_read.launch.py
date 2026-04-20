@@ -11,6 +11,7 @@ def generate_launch_description() -> LaunchDescription:
     behavior_tree_start_delay = LaunchConfiguration('behavior_tree_start_delay')
     debug_terminal = LaunchConfiguration('esp32_debug_terminal')
     debug_terminal_prefix = LaunchConfiguration('esp32_debug_terminal_prefix')
+    serial_port = LaunchConfiguration('esp32_serial_port')
     serial_trace = LaunchConfiguration('esp32_serial_trace')
 
     behavior_tree_start_delay_arg = DeclareLaunchArgument(
@@ -27,6 +28,11 @@ def generate_launch_description() -> LaunchDescription:
         'esp32_debug_terminal_prefix',
         default_value='x-terminal-emulator -T control_gateway_debug -e',
         description='Terminal prefix used when esp32_debug_terminal is enabled.',
+    )
+    serial_port_arg = DeclareLaunchArgument(
+        'esp32_serial_port',
+        default_value='/dev/ttyUSB0',
+        description='Serial port device used by control_gateway to communicate with ESP32.',
     )
     serial_trace_arg = DeclareLaunchArgument(
         'esp32_serial_trace',
@@ -57,7 +63,7 @@ def generate_launch_description() -> LaunchDescription:
         name='control_gateway',
         output='screen',
         parameters=[{
-            'serial_port': '/dev/ttyUSB0',
+            'serial_port': serial_port,
             'serial_baud': 115200,
             'serial_trace': serial_trace,
         }],
@@ -70,7 +76,7 @@ def generate_launch_description() -> LaunchDescription:
         name='control_gateway',
         output='screen',
         parameters=[{
-            'serial_port': '/dev/ttyUSB0',
+            'serial_port': serial_port,
             'serial_baud': 115200,
             'serial_trace': serial_trace,
         }],
@@ -87,6 +93,7 @@ def generate_launch_description() -> LaunchDescription:
         behavior_tree_start_delay_arg,
         debug_terminal_arg,
         debug_terminal_prefix_arg,
+        serial_port_arg,
         serial_trace_arg,
         gpio_servers_stack,
         motor_control,
