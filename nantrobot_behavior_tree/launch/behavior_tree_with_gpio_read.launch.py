@@ -2,6 +2,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -57,6 +58,17 @@ def generate_launch_description() -> LaunchDescription:
         )
     )
 
+    lidar_launch = IncludeLaunchDescription(
+        XMLLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare('lidar_pkg'),
+                'launch',
+                'lidar_launch.launch.xml'
+            ])
+        )
+        
+    )
+
     motor_control = Node(
         package='motor_control_pkg',
         executable='control_gateway',
@@ -99,4 +111,5 @@ def generate_launch_description() -> LaunchDescription:
         motor_control,
         motor_control_debug_terminal,
         delayed_behavior_tree_start,
+        lidar_launch
     ])

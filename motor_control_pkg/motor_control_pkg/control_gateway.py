@@ -6,6 +6,7 @@ from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from std_msgs.msg import Float32
+from lidar_pkg.msg import ObstacleStatus
 
 from nantrobot_interfaces.action import (
     Goto,
@@ -65,7 +66,7 @@ class ControlGateway(Node):
             except Exception as exc:
                 self.get_logger().error(f'Serial connection failed: {exc}')
 
-        self.create_subscription(Float32, '/max_speed', self._max_speed_cb, 10)
+        self.create_subscription(ObstacleStatus, '/max_speed', self._max_speed_cb, 10)
 
         self._goto_server = ActionServer(
             self,
@@ -150,8 +151,8 @@ class ControlGateway(Node):
             self._active_task = None
             self._stop_requested = False
 
-    def _max_speed_cb(self, msg):
-        new_speed = max(0.0, float(msg.data))
+    def _max_speed_cb(self, msg:ObstacleStatus):
+        new_speed = max(0.0, float(msg.velocity))
         self.max_speed = new_speed
         self._send_command(f'max_speed {new_speed:.3f}')
 

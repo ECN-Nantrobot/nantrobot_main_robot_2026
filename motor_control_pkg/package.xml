@@ -12,6 +12,7 @@
   <depend>std_msgs</depend>
   <depend>nantrobot_interfaces</depend>
   <depend>example_interfaces</depend>
+  <depend>lidar_pkg</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
