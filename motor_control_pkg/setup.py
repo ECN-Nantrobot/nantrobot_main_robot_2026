@@ -28,7 +28,7 @@ setup(
     entry_points={
         'console_scripts': [
             'motor_node = motor_control_pkg.motor_node:main',
-            'interface_node = motor_control_pkg.interface_node:main',
+            'interface_node = motor_control_pkg.interface_node2:main',
             'control_gateway = motor_control_pkg.control_gateway:main',
             'odom_node_sim = motor_control_pkg.odom_node_sim:main'
         ],

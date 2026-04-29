@@ -36,6 +36,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/InitOdom.action"
   "action/SetTeam.action"
   "action/Stop.action"
+
+  "srv/SetString.srv"
 )
 
 ament_package()
