@@ -92,7 +92,8 @@ int main(int argc, char **argv)
   auto global_bb = BT::Blackboard::create();
   auto maintree_bb = BT::Blackboard::create(global_bb);
   
-   auto tree = factory.createTreeFromFile("./install/nantrobot_behavior_tree/share/nantrobot_behavior_tree/ressources/behavior_tree.xml", maintree_bb);
+  //  auto tree = factory.createTreeFromFile("./install/nantrobot_behavior_tree/share/nantrobot_behavior_tree/ressources/behavior_tree.xml", maintree_bb);
+   auto tree = factory.createTreeFromFile("./install/nantrobot_behavior_tree/share/nantrobot_behavior_tree/ressources/test_tree.xml", maintree_bb);
   
    BT::Groot2Publisher publisher(tree);
   // To "execute" a Tree you need to "tick" it.

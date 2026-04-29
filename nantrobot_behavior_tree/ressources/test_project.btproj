@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" project_name="Project">
+    <include path="test_tree.xml"/>
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Action ID="Goto" editable="true">
+            <input_port name="x" type="double">X coordinates</input_port>
+            <input_port name="y" type="double">Y coordinates</input_port>
+            <input_port name="forward" default="true" type="bool">Forward travel direction (true=forward, false=reverse)</input_port>
+            <output_port name="current_x" type="double"/>
+            <output_port name="current_y" type="double"/>
+            <output_port name="current_theta" type="double"/>
+        </Action>
+        <Action ID="Orientation" editable="true">
+            <input_port name="theta" type="double">Target orientation in radians</input_port>
+            <output_port name="current_x" type="double"/>
+            <output_port name="current_y" type="double"/>
+            <output_port name="current_theta" type="double"/>
+        </Action>
+        <Action ID="Pick" editable="true">
+            <input_port name="forward" default="true" type="bool">Determine which side to use</input_port>
+        </Action>
+    </TreeNodesModel>
+</root>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="main_tree">
+    <Goto x="2"
+          y="3"
+          forward="true"
+          current_x="{@current_x}"
+          current_y="{@current_y}"
+          current_theta="{@current_theta}"/>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Goto"
+            editable="true">
+      <input_port name="x"
+                  type="double">X coordinates</input_port>
+      <input_port name="y"
+                  type="double">Y coordinates</input_port>
+      <input_port name="forward"
+                  default="true"
+                  type="bool">Forward travel direction (true=forward, false=reverse)</input_port>
+      <output_port name="current_x"
+                   type="double"/>
+      <output_port name="current_y"
+                   type="double"/>
+      <output_port name="current_theta"
+                   type="double"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

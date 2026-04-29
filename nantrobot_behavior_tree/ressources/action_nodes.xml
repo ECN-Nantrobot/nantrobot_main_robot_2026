@@ -1,0 +1,26 @@
+  <root BTCPP_format="4">
+    <TreeNodesModel>
+      <Action ID="Goto"
+              editable="true">
+        <input_port name="x"
+                    type="double">X coordinates</input_port>
+        <input_port name="y"
+                    type="double">Y coordinates</input_port>
+        <input_port name="forward"
+                    default="true"
+                    type="bool">Forward travel direction (true=forward, false=reverse)</input_port>
+        <output_port name="current_x"
+                    type="double"/>
+        <output_port name="current_y"
+                    type="double"/>
+        <output_port name="current_theta"
+                    type="double"/>
+      </Action>
+      <Action ID="Orientation" editable="true">
+              <input_port name="theta" type="double">Target orientation in radians</input_port>
+              <output_port name="current_x" type="double"/>
+              <output_port name="current_y" type="double"/>
+              <output_port name="current_theta" type="double"/>
+      </Action>
+    </TreeNodesModel>
+</root>
