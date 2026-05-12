@@ -4,18 +4,24 @@ from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
 from lidar_pkg.msg import ObstacleStatus
 import math
+import RPi.GPIO as GPIO
+
+
 
 class LidarNode(Node):
     ranges = []
     min_dist = 0.5      #in meters
     fov = math.pi/2
-
+    LED_GPIO_ = 20
 
     def __init__(self):
         super().__init__("lidar")
         self.lidar_subscriber = self.create_subscription(LaserScan, "scan", self.callback_lidar_subscriber, 10)
         self.operation_timer = self.create_timer(1.0, self.main_loop)
         self.velocity_publisher = self.create_publisher(ObstacleStatus, "max_speed", 10)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.LED_GPIO_, GPIO.OUT)
+        GPIO.cleanup()
 
     def callback_lidar_subscriber(self, msg:LaserScan):
         self.ranges = list(msg.ranges)
