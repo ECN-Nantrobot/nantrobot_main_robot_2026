@@ -25,6 +25,8 @@ def generate_launch_description():
         package='lidar_pkg',
         executable='lidar.py',
         name='lidar_node',
+        respawn=True,
+        respawn_delay=1.0,
         output='screen'
     )
 
@@ -33,6 +35,8 @@ def generate_launch_description():
         package='lidar_pkg',
         executable='lidar_to_arduino.py',
         name='vel_node',
+        respawn=True,
+        respawn_delay=1.0,
         output='screen'
     )
 
