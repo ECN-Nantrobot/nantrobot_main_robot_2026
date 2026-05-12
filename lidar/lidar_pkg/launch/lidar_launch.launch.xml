@@ -1,4 +1,5 @@
 <launch>
     <include file="$(find-pkg-share sllidar_ros2)/launch/view_sllidar_c1_launch.py"/>
     <node pkg = "lidar_pkg" exec = "lidar.py"/>
+    <node pkg = "lidar_pkg" exec = "lidar_to_arduino.py" />
 </launch>

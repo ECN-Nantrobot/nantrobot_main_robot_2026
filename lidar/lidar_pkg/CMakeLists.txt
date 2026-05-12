@@ -22,7 +22,9 @@ install(DIRECTORY
 
 )
 
-install(PROGRAMS script/lidar.py
+install(PROGRAMS 
+  script/lidar.py
+  script/lidar_to_arduino.py
   DESTINATION lib/${PROJECT_NAME}
 
 )
