@@ -1,4 +1,4 @@
-sudo apt update && sudo apt install xterm
+sudo apt update && sudo apt install xterm && sudo apt install ros-jazzy-example-interfaces
 
 
 terminal 1
@@ -8,9 +8,7 @@ terminal 2
 python3 ~/ros2_ws/src/motor_control_pkg/arduino/arduino_sim.py
 
 terminal 3
-colcon build --packages-select motor_control_pkg
-source ~/ros2_ws/install/setup.bash
-ros2 launch motor_control_pkg robot_launch.launch.py
+colcon build --packages-select motor_control_pkg && source ~/ros2_ws/install/setup.bash && ros2 launch motor_control_pkg robot_launch.launch.py
 
 
 Note

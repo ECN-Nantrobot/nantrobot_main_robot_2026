@@ -48,8 +48,14 @@ def generate_launch_description():
         # Keep simulator odometry support in software-only runs.
         Node(
             package='motor_control_pkg',
-            executable='odom_node_sim',
+            executable='interface_node',
             name='odom_node',
+            output='screen'
+        ),
+        Node(
+            package='motor_control_pkg',
+            executable='odom_node_sim',
+            name='odom_sim',
             output='screen'
         )
     ])

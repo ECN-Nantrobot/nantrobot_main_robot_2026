@@ -46,26 +46,31 @@ class LidarNode(Node):
                 self.is_led_on = True
                 self.last_toggle_time = now
 
+        self.max_range = 3.0  
+
     def callback_lidar_subscriber(self, msg:LaserScan):
         self.ranges = list(msg.ranges)
 
     def main_loop(self):
-        max_range = 3.0   # The length of the playing board
+         # The length of the playing board
         
         if self.ranges == []:
             pass     
         else: 
             ranges = self.ranges
             for index, value in enumerate(ranges):
-                if value > max_range:
-                    ranges[index] = max_range
+                if math.isinf(value): value = self.max_range
+                if value > self.max_range:
+                    ranges[index] = self.max_range
 
             closest_obstacle_dist = min(ranges)
 
             if closest_obstacle_dist <= self.min_dist:
                 velocity = 0.0
             else:
-                velocity = (closest_obstacle_dist - self.min_dist)/(max_range - self.min_dist)
+                velocity = (closest_obstacle_dist - self.min_dist)/(self.max_range - self.min_dist)
+            
+            self.get_logger().info(f"{closest_obstacle_dist=} | velocity: {velocity}")
             
             msg = ObstacleStatus()
             msg.velocity = velocity
