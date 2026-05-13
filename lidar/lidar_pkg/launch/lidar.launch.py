@@ -7,17 +7,20 @@ from launch_ros.actions import Node
 
 from launch.actions import TimerAction
 
-WAIT_TIME = 10.0
+WAIT_TIME = 1.0
 
 
 def generate_launch_description():
     # 1. Path to the SLLidar launch file
     sllidar_dir = get_package_share_directory('sllidar_ros2')
-    sllidar_launch_path = os.path.join(sllidar_dir, 'launch', 'view_sllidar_c1_launch.py')
+    sllidar_launch_path = os.path.join(sllidar_dir, 'launch', 'sllidar_c1_launch.py')
 
     # 2. Include the SLLidar launch
     included_sllidar_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(sllidar_launch_path)
+        PythonLaunchDescriptionSource(sllidar_launch_path),
+        launch_arguments={
+            'serial_port': '/dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-port0'  # This overrides the default '1.5'
+        }.items()
     )
 
     # 3. Define your custom lidar processing node

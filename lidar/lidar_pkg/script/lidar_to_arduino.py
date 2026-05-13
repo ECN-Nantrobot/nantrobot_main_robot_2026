@@ -9,7 +9,7 @@ class VelocityService(Node):
     def __init__(self):
         super().__init__('vel_node')
 
-        self.arduino_port = '/dev/ttyUSB1' 
+        self.arduino_port = '/dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.3:1.0-port0' 
         self.baud_rate = 115200
         self.last_velocity_sent = None
 
