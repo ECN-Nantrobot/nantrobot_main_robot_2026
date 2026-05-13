@@ -67,8 +67,12 @@ class LidarNode(Node):
 
             if closest_obstacle_dist <= self.min_dist:
                 velocity = 0.0
+            # else:
+            #     velocity = (closest_obstacle_dist - self.min_dist)/(self.max_range - self.min_dist)
+            elif closest_obstacle_dist >= 0.8:
+                velocity = 1.0                
             else:
-                velocity = (closest_obstacle_dist - self.min_dist)/(self.max_range - self.min_dist)
+                velocity = (closest_obstacle_dist - self.min_dist)/(0.8 - self.min_dist)
             
             self.get_logger().info(f"{closest_obstacle_dist=} | velocity: {velocity}")
             

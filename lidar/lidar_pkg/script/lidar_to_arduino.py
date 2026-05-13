@@ -11,7 +11,8 @@ class VelocityService(Node):
 
         self.arduino_port = '/dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.3:1.0-port0' 
         self.baud_rate = 115200
-        self.last_velocity_sent = None
+        # self.last_velocity_sent = None
+        self.new_vel = None
 
         try:
             self.arduino = serial.Serial(self.arduino_port, self.baud_rate, timeout=1)
@@ -24,18 +25,22 @@ class VelocityService(Node):
             self.arduino = None
 
         self.vel_subscriber = self.create_subscription(ObstacleStatus, "max_speed", self.vel_callback, 10)
+        self.send_vel_timer = self.create_timer(0.3, self.send_vel)
+
+    def send_vel(self):
+        self.send_arduino(str(self.new_vel) + '\n')
 
     
     def vel_callback(self, msg: ObstacleStatus):
             """Processes incoming obstacle status and updates Arduino if velocity changed."""
-            new_vel = msg.velocity
+            self.new_vel = msg.velocity
 
             # self.get_logger().info(f"Velocity read: {msg.velocity} | actual velocity: {self.last_velocity_sent}")
             # self.send_arduino(f"MESSAGE RECEIVED\n")
             
-            if new_vel != self.last_velocity_sent:
-                self.send_arduino(str(new_vel))
-                self.last_velocity_sent = new_vel
+            # if new_vel != self.last_velocity_sent:
+            #     self.send_arduino(str(new_vel))
+            #     self.last_velocity_sent = new_vel
 
             while self.arduino and self.arduino.in_waiting > 0:
                 try:
